@@ -1,4 +1,5 @@
-﻿using Catalog.Domain;
+﻿using Catalog.Database.Configuration;
+using Catalog.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,19 @@ namespace Catalog.Database
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.HasDefaultSchema("Catalog");
+            ModelConfig(builder);
+        }
+
+        private void ModelConfig(ModelBuilder builder)
+        {
+            new ProductConfiguration(builder.Entity<Product>());
+            new ProductConfiguration(builder.Entity<Product>());
         }
 
         //Mis entidades
